@@ -4,11 +4,28 @@ This is repository contains actions to allow the automatic creation of Azure Web
 
 The main idea is that participants of the workshop:
 
-1. open up an issue from an issue-form in this repository giving their target repository
-2. A workflow is triggered that
-    1. creates the deployment environment (basically a resource group) in Azure
-    2. creates an App Registratoin with a Service Principal that allows the repository to deploy via OIDC
-    3. writes the necessary information into the target repository's action variables
+1. Open an issue from an issue-form in this repository giving their target repository
+2. This triggers a workflow that will:
+    1. create an App Registratoin with a Service Principal that allows the repository to deploy via OIDC
+    2. create a `ResourceGroup` in Azure to deploy to
+    3. puts the required OIDC information and `ResourceGroup` Name into the target repository as secrets and action variables
+
+## Getting started
+
+There are 3 pieces required to make this work:
+
+1. Azure Admin Principal - this is so that you can actually create the deployment targets and further app registrations for the participants
+2. A GitHub Organization for the Actions Workshop
+3. A GitHub PAT in the scope of this organization
+4. This repository copied into that Organization
+
+### 1. Azure Admin Principal
+
+### 2. GitHub Organization
+
+### 3. GitHub PAT
+
+### 4. This repository
 
 ## How it works in Detail
 
@@ -39,4 +56,4 @@ graph TD;
    4. It assigns a **Role** that contains all permissions to deploy a Azure Web App to the Service Principal for the given ReosourceGroup
    5. It writes the variables `AZ_RESOURCE_GROUP` and the `AZ_CLIENT_ID` into the repositorie's action variables
 
-Once done, the participants can use the `deploy` workflow in their repository to deploy to the created environment.
+Once done, the participants can just easily use the [./resources/deploy-action.yml](./resources/deploy-action.yml) workflow in their repository to deploy to the created environment.
