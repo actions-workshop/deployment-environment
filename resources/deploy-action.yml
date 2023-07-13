@@ -53,11 +53,13 @@ jobs:
   staging:
     name: Deploy to Staging
     runs-on: ubuntu-latest
+    needs:
+      - package-and-publish
     permissions:
       contents: read
       id-token: write
     environment:
-      name: Staging
+      name: staging
       url: "${{ steps.deploy.outputs.url }}"
 
     steps:
@@ -78,5 +80,4 @@ jobs:
           region: westeurope
           template: ./infra/web-app.bicep
           resourceGroupName: ${{ vars.AZ_RESOURCE_GROUP }}
-          ## TODO: Read Parameters from previous step
-          parameters: "containerName=davelosert/2023-07-06-actions-workshop containerVersion=44763f7 appName=2023-07-07-davelosert-actions-workshop"
+          parameters: "containerImage=${{ needs.package-and-publish.outputs.container } appName=2023-07-07-davelosert-actions-workshop"

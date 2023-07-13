@@ -1,7 +1,6 @@
 param location string = 'westeurope'
 param appName string
-param containerName string
-param containerVersion string
+param containerImage string
 
 resource appServicePlan 'Microsoft.Web/serverfarms@2022-09-01' = {
   name: '${appName}-plan'
@@ -23,7 +22,7 @@ resource webApp 'Microsoft.Web/sites@2022-09-01' = {
   properties: {
     serverFarmId: appServicePlan.id
     siteConfig: {
-      linuxFxVersion: 'DOCKER|ghcr.io/${containerName}:${containerVersion}'
+      linuxFxVersion: 'DOCKER|${containerImage}'
       appSettings: [
         {
           name: 'WEBSITES_ENABLE_APP_SERVICE_STORAGE'
