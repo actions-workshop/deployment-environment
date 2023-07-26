@@ -1,6 +1,16 @@
-# deployment-environment
+# Actions Workshop Deployment Environment
 
-This is repository contains actions to allow the automatic creation of Azure Web App deployment environments. It is supposed to be used by a Trainer of the [GitHub Actions Workshop](https://github.com/actions-workshop/actions-workshop) to allow participants to deploy during the workshop without requiring their own Azure account.
+This repository contains preparation material for the deployment stept of the [GitHub Actions Workshop](https://github.com/actions-workshop/actions-workshop).
+
+It's mostly ment for trainers of this workshop to allow participants to deploy to any kind of infrastructure (like Azure) without having them create or bring their own.
+
+## 1. Simple Azure Web-App with Secret Authentication
+
+This is the simplest possible deployment environment that can be created for the workshop. It consists of an Azure Service Principal using Secret authentication that has the required permissions to deploy a Web-App to a given Resource Group.
+
+## 2. Issue-Ops Azure Web-App with OIDC Authentication
+
+This is a more complex way for deployment, in that it uses the GitHub Issue Tracker to trigger the creation of a deployment environment (hence the term 'Issue Ops'). Additionally, rather than relying on secrets, it will use OIDC Authentication to conduct the deployment in a secure manner.
 
 The main idea is that participants of the workshop:
 
@@ -10,7 +20,7 @@ The main idea is that participants of the workshop:
     2. create a `ResourceGroup` in Azure to deploy to
     3. puts the required OIDC information and `ResourceGroup` Name into the target repository as secrets and action variables
 
-## Getting started
+### Getting started
 
 There are 3 pieces required to make this work:
 
