@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# halt the script on an error
+set -e
+
+## In case of an error, print abortion
+trap 'echo "Aborting due to error on line $LINENO. Exit code: $?" >&2' ERR
+
+
 ## Check if the ENV Variable AZ_SUBSCRIPTION_ID is set, error out if not
 if [ -z "$AZ_SUBSCRIPTION_ID" ]; then
 	echo "AZ_SUBSCRIPTION_ID is missing. Please set it using 'export AZ_SUBSCRIPTION_ID=<PLACE YOUR ID HERE>' and run this script again."
@@ -12,12 +19,12 @@ if [ -z "$(az account show)" ]; then
 	exit 1
 fi
 
-AZURE_CREDENTIALS=$(az ad sp create-for-rbac --name "GitHub Actions Workshop Tenant")
+echo "Creating Service Principal..."
+AZURE_CREDENTIALS=$(az ad sp create-for-rbac --name "GitHub Actions Workshop Principal" --only-show-errors)
 
 ROLE_JSON=$(cat <<EOF
 {
-	"roleName": "GitHub Actions Workshop Role",
-	"roleType": "CustomRole",
+	"Name": "GitHub Actions Workshop Role",
 	"Description": "This role is used by the GitHub Actions Workshop to allow a Deployment in Azure Web Apps.",
 	"Actions": [
 		"Microsoft.Resources/subscriptions/resourceGroups/read",
@@ -36,11 +43,15 @@ ROLE_JSON=$(cat <<EOF
 EOF
 )
 
-az role definition create --role-definition "$ROLE_JSON"
+echo "Creating Custom Role..."
+az role definition create --role-definition "$ROLE_JSON" --only-show-errors
 
-az role assignment create --assignee $(echo $AZURE_CREDENTIALS | jq -r .appId) --role "GitHub Actions Workshop Role" --scope "/subscriptions/$AZ_SUBSCRIPTION_ID"
+echo "Assigning Role to Service Principal..."
+az role assignment create --assignee $(echo $AZURE_CREDENTIALS | jq -r .appId) --role "GitHub Actions Workshop Role" --scope "/subscriptions/$AZ_SUBSCRIPTION_ID" --only-show-errors
 
-echo "The following resources were created:
+echo ""
+echo "Azure Account Preparation was succesfull.
+The following resources were created:
   - A Service Principal with the name 'GitHub Actions Workshop Tenant' (from the portal, you can find it in Entra Id under App registrations -> All applications)
   - A Custom Role with the name 'GitHub Actions Workshop Role' (from the portal, you can find it under your Subscription -> IAM -> Roles)
   - A Role Assignment for the Service Principal to the Custom Role

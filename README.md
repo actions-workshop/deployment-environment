@@ -2,11 +2,67 @@
 
 This repository contains preparation material for the deployment stept of the [GitHub Actions Workshop](https://github.com/actions-workshop/actions-workshop).
 
-It's mostly ment for trainers of this workshop to allow participants to deploy to any kind of infrastructure (like Azure) without having them create or bring their own.
+It's for trainers of this workshop to allow participants to deploy to any kind of infrastructure (like Azure) without having them create or bring their own accounts.
 
 ## 1. Simple Azure Web-App with Secret Authentication
 
 This is the simplest possible deployment environment that can be created for the workshop. It consists of an Azure Service Principal using Secret authentication that has the required permissions to deploy a Web-App to a given Resource Group.
+
+### 1.1 Prepare the Azure Account
+
+The simplest way to go from here is to use the [./resources/simple/prepare-azure.sh](./resources/simple/prepare-azure.sh) script. Before you execute it, do the following:
+
+1. Login to Azure with
+    ```shell
+    az login
+    ```
+2. Put the subscription Id into a variable:
+    ```shell
+    export AZ_SUBSCRIPTION_ID=<your-subscription-id>
+    ```
+3. Execute the script:
+    ```shell
+    ./resources/simple/prepare-azure.sh
+    ```
+
+You will get an output with the following Ids:
+
+- `AZ_CLIENT_ID` - the client id of the service principal
+- `AZ_CLIENT_SECRET` - the client secret of the service principal
+- `AZ_TENANT_ID` - the tenant id of the service principal
+- `AZ_RESOURCE_GROUP` - the name of the resource group to deploy to
+
+Use these Ids and put them into the organisation of the workshop in the next step.
+
+### 1.2 Create a GitHub Organization
+
+Execute the following steps:
+
+1. [Create a free GitHub Organization](https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/creating-a-new-organization-from-scratch)
+2. [Add all the IDs from above as organization action secrets](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-an-organization)
+3. [Invite all participants to the organization](https://docs.github.com/en/organizations/managing-membership-in-your-organization/inviting-users-to-join-your-organization) and advice them to put their [Actions Workshop Template Copy](https://github.com/actions-workshop/actions-workshop) into this organization
+
+### 1.3 Cleanup
+
+After the workshop, you can easily cleanup all created resources by executing the [./resources/simple/cleanup-azure.sh](./resources/simple/cleanup-azure.sh) script:
+
+1. Login to Azure with
+    ```shell
+    az login
+    ```
+2. Put the subscription Id into a variable:
+    ```shell
+    export AZ_SUBSCRIPTION_ID=<your-subscription-id>
+    ```
+3. Execute the script:
+    ```shell
+    ./resources/simple/cleanup-azure.sh
+    ```
+    
+This script will:
+
+1. Delete all Resource Groups that participants created (identified by the tag `purpose=GitHub Actions Workshop`) and all deployed services
+2. It will prompt you to also delete the Service Principal and Custom Role that was created for the workshop. You can keep them if you want to use them for future workshops.
 
 ## 2. Issue-Ops Azure Web-App with OIDC Authentication
 
