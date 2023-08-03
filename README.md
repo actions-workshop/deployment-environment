@@ -10,7 +10,7 @@ This is the simplest possible deployment environment that can be created for the
 
 ### 1.1 Prepare the Azure Account
 
-The simplest way to go from here is to use the [./resources/simple/prepare-azure.sh](./resources/simple/prepare-azure.sh) script. Before you execute it, do the following:
+The simplest way to go from here is to use the [./resources/simple/prepare-azure.sh](./resources/simple/prepare-azure.sh) script. To run it, spin up a Codespace and execute the following:
 
 1. Login to Azure with
     ```shell
@@ -81,9 +81,8 @@ The main idea is that participants of the workshop:
 There are 3 pieces required to make this work:
 
 1. Azure Admin Principal - this is so that you can actually create the deployment targets and further app registrations for the participants
-2. A GitHub Organization for the Actions Workshop
+2. A GitHub Organization for the Actions Workshop with a copy of this repository template in it
 3. A GitHub PAT in the scope of this organization
-4. This repository copied into that Organization
 
 ### 1. Azure Admin Principal
 
@@ -91,7 +90,6 @@ There are 3 pieces required to make this work:
 
 ### 3. GitHub PAT
 
-### 4. This repository
 
 ## How it works in Detail
 

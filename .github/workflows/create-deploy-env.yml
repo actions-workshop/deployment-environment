@@ -20,7 +20,7 @@ env:
   AZ_REGION: westeurope
   OWNER_REPO_NORMALIZED: ${{ inputs.owner }}-${{ inputs.repository }}
   AZ_RESOURCE_GROUP: aw-${{ inputs.owner }}-${{ inputs.repository }}-rg
-  AZ_ROLE: "Custom Web App Container Deployment"
+  AZ_ROLE: "GitHub Actions Workshop Role"
 
 jobs:
   deploy:
@@ -34,9 +34,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: ${{ secrets.CLIENT_ID }}
-          tenant-id: ${{ secrets.TENANT_ID }}
-          subscription-id: ${{ secrets.SUBSCRIPTION_ID }}
+          client-id: ${{ secrets.AZ_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZ_TENANT_ID }}
+          subscription-id: ${{ secrets.AZ_SUBSCRIPTION_ID }}
       - name: Create AAD App Registration and Service Principal
         id: create-app
         uses: azure/cli@v1
@@ -100,7 +100,7 @@ jobs:
         with:
           azcliversion: 2.50.0
           inlineScript: |
-            az role assignment create --assignee-object-id ${{ steps.create-app.outputs.spId }} --role "${{ env.AZ_ROLE }}" --scope /subscriptions/${{ secrets.SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RESOURCE_GROUP }} --assignee-principal-type ServicePrincipal
+            az role assignment create --assignee-object-id ${{ steps.create-app.outputs.spId }} --role "${{ env.AZ_ROLE }}" --scope /subscriptions/${{ secrets.AZ_SUBSCRIPTION_ID }}/resourceGroups/${{ env.AZ_RESOURCE_GROUP }} --assignee-principal-type ServicePrincipal
 
   update_repo:
     name: Update Target Repository
