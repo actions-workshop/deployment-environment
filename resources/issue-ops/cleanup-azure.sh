@@ -43,7 +43,7 @@ if [[ ! $REPLY =~ ^[Yy]$ ]]; then
 	exit 1
 fi
 
-echo "Deleting Service Principal (including it App Registration and Secret)..."
+echo "Deleting Service Principal (including it's App Registration and Federated Credentials)..."
 
 ## Get the app by display name
 SP_APP_ID=$(az ad app list --display-name "GitHub Actions Workshop Administrator" --query '[].appId' -o tsv) 
@@ -57,7 +57,7 @@ fi
 
 echo "Deleting Role Assignments..."
 ## List all Role assignments to the GitHub Actions Workshop Role
-ROLE_ASSIGNMENT_IDS=$(az role assignment list --role "GitHub Actions Workshop Role" --query '[].id' -o tsv)
+ROLE_ASSIGNMENT_IDS=$(az role assignment list --role "GitHub Actions Workshop Role" --query '[].principalId' -o tsv)
 
 ## Loop over all Role assignments and delete them
 for ROLE_ASSIGNMENT_ID in $ROLE_ASSIGNMENT_IDS; do
