@@ -24,14 +24,14 @@ if [[ -n "$RESOURCE_GROUPS" ]]; then
 	## Loop over all Resource Groups and delete them
 	for RESOURCE_GROUP in $RESOURCE_GROUPS; do
 		echo "Deleting Resource Group $RESOURCE_GROUP..."
-		# az group delete --name $RESOURCE_GROUP --yes --no-wait
+		az group delete --name $RESOURCE_GROUP --yes --no-wait
 	done
 else
 	echo "No Actions Workshop Resource Groups found. Skipping..."
 fi
 
 ## Ask the user if they want to delete the Service Principal and Custom Role as well
-read -p "Do you want to delete the Service Principal and Custom Role? (y/n) " -n 1 -r
+read -p "Do you also want to delete the Service Principal and Custom Role? (y/n) " -n 1 -r
 echo ""
 
 ## Exit if the user did not confirm

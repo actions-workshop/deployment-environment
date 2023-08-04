@@ -66,15 +66,17 @@ This script will:
 
 ## 2. Issue-Ops Azure Web-App with OIDC Authentication
 
-This is a more complex way for deployment, in that it uses the GitHub Issue Tracker to trigger the creation of a deployment environment (hence the term 'Issue Ops'). Additionally, rather than relying on secrets, it will use OIDC Authentication to conduct the deployment in a secure manner.
+This is a more complex way for deployment, in that it uses GitHub Issues to trigger the creation of a full deployment environment on Azure (hence the term 'Issue Ops'). Additionally, rather than relying on secrets, it will use OIDC Authentication to conduct the deployment in a secure manner.
 
 The main idea is that participants of the workshop:
 
 1. Open an issue from an issue-form in this repository giving their target repository
 2. This triggers a workflow that will:
-    1. create an App Registratoin with a Service Principal that allows the repository to deploy via OIDC
-    2. create a `ResourceGroup` in Azure to deploy to
-    3. puts the required OIDC information and `ResourceGroup` Name into the target repository as secrets and action variables
+    1. create an **App Registration** with a **Service Principal** that allows the repository to deploy to a certain Resource Group via OIDC
+    2. create a `ResourceGroup` in Azure that the **App Registration** is allowed to deploy to by a **Role**
+    3. puts the required OIDC Information (`AZ_CLIENT_ID`, `AZ_SUBSCRIPTION_ID` and `AZ_TENANT_ID`) and the `ResourceGroup` Name into the target repository as secrets and action variables
+
+With these variables and secrets, participants can follow the OIDC-Deployment-Steps.
 
 ### Getting started
 
@@ -86,9 +88,26 @@ There are 3 pieces required to make this work:
 
 ### 1. Azure Admin Principal
 
+
+
 ### 2. GitHub Organization
 
 ### 3. GitHub PAT
+
+1. Create the following GitHub PAT:
+
+    **Owner: Your Workshop Organization**
+    **Scopes**:
+
+    | Name | Scope | Reason |
+    | ---- | ----- | ------ |
+    | Actions | Read and write | To be able to trigger workflows |
+    | Metadata | Read | Check if the repository exists and is in current org |
+    | Secrets | Read and write | Place the required variables into the target repository |
+    | Variables | Read and write | Place the required variables into the target repository |
+
+2.  Create a  **Repository Secret `ORGANIZATION_TOKEN`
+
 
 
 ## How it works in Detail

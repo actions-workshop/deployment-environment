@@ -57,10 +57,9 @@ The following resources were created:
   - A Role Assignment for the Service Principal to the Custom Role
 "
 
-echo "Here are all the required secrets and ids for the Service Principal:
+echo "Next Steps: Create the following GitHub Organization Secrets in your Workshop Organization:
   AZ_CLIENT_ID:       $(echo $AZURE_CREDENTIALS | jq -r .appId)
   AZ_CLIENT_SECRET:   $(echo $AZURE_CREDENTIALS | jq -r .password)
   AZ_TENANT_ID:       $(echo $AZURE_CREDENTIALS | jq -r .tenant)
   AZ_SUBSCRIPTION_ID: $AZ_SUBSCRIPTION_ID
-Use these to create GitHub Organization Secrets in your Workshop Organization!
 "
