@@ -20,7 +20,7 @@ env:
   AZ_REGION: westeurope
   OWNER_REPO_NORMALIZED: ${{ inputs.owner }}-${{ inputs.repository }}
   AZ_RESOURCE_GROUP: aw-${{ inputs.owner }}-${{ inputs.repository }}-rg
-  AZ_ROLE: "GitHub Actions Workshop Role"
+  AZ_ROLE: "GitHub Actions Workshop Participants Role"
 
 jobs:
   deploy:
@@ -45,22 +45,22 @@ jobs:
           inlineScript: |
             echo "Creating AAD App ${{ env.OWNER_REPO_NORMALIZED }}"
             app=$(az ad app create --display-name "aw-${{ env.OWNER_REPO_NORMALIZED }}" --sign-in-audience "AzureADMyOrg")
-            objectId=$(echo $app | jq -r '.objectId')
             APP_ID=$(echo $app | jq -r '.appId')
 
-            SP=$(az ad sp list --filter "appId eq '$APP_ID'")
-            if [ "$SP" == "[]" ]; then
+            SP=$(az ad sp list --filter "appId eq '${APP_ID}'")
+            if [ "${SP}" == "[]" ]; then
               echo "Adding Servie Principal to App..."
-              SP=$(az ad sp create --id $APP_ID) 
+              SP=$(az ad sp create --id ${APP_ID}) 
+              SP_ID=$(echo ${SP} | jq -r '.id')
             else
               echo "Service Principal already exists. Skipping..."
+              SP_ID=$(echo ${SP} | jq -r '.[0].id')
             fi
 
-            SP_ID=$(echo $SP | jq -r '.[0].id')
-            echo "Found APP_ID: [$APP_ID] and SP_ID: [$SP_ID]"
+            echo "Found APP_ID: [${APP_ID}] and SP_ID: [${SP_ID}]"
 
-            echo "appId=$APP_ID" >> $GITHUB_OUTPUT
-            echo "spId=$SP_ID" >> $GITHUB_OUTPUT
+            echo "appId=${APP_ID}" >> $GITHUB_OUTPUT
+            echo "spId=${SP_ID}" >> $GITHUB_OUTPUT
 
       - name: Create Federated Credentials (OIDC)
         id: create-creds
@@ -90,7 +90,7 @@ jobs:
         with:
           inlineScript: |
             if [ "$(az group exists --name ${{ env.AZ_RESOURCE_GROUP }})" == 'false' ]; then
-              az group create --name ${{ env.AZ_RESOURCE_GROUP }} --location ${{ env.AZ_REGION }} 
+              az group create --name ${{ env.AZ_RESOURCE_GROUP }} --location ${{ env.AZ_REGION }} --tags actor=${{ inputs.user }} purpose='GitHub Actions Workshop' repository='${{ inputs.owner }}/${{ inputs.repository }}'
             else
               echo "Resource group ${{ env.AZ_RESOURCE_GROUP }} already exists. Skipping..."
             fi

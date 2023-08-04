@@ -23,6 +23,9 @@ if [[ ! $GITHUB_REPOSITORY =~ ^[a-z0-9-]+/[a-z0-9-]+$ ]]; then
 	exit 1
 fi
 
+## Split the $GITHUB_REPOSITORY by the '/' delimiter and get the first element (owner)
+GITHUB_OWNER=$(echo $GITHUB_REPOSITORY | cut -d'/' -f1)
+
 if [ -z "$AZ_SUBSCRIPTION_ID" ]; then
 	echo "AZ_SUBSCRIPTION_ID is missing. Please enter it below:"
 	read AZ_SUBSCRIPTION_ID
@@ -123,6 +126,8 @@ ADMIN_ROLE_JSON=$(cat <<EOF
 		"Microsoft.Resources/subscriptions/resourceGroups/read",
 		"Microsoft.Resources/subscriptions/resourceGroups/write",
 		"Microsoft.Resources/subscriptions/resourceGroups/delete",
+		"Microsoft.Authorization/roleAssignments/read",
+		"Microsoft.Authorization/roleAssignments/write",
 		"Microsoft.Web/serverfarms/read",
 		"Microsoft.Web/serverfarms/write",
 		"Microsoft.Web/serverfarms/delete",
@@ -197,10 +202,10 @@ The following resources were created:
 "
 
 echo "Next Steps: Place the following secrets in your repository and organization:
-REPOSITORY SECRET (for https://github.com/${GITHUB_REPOSITORY})
+REPOSITORY SECRET (https://github.com/${GITHUB_REPOSITORY}/settings/secrets/actions)
   AZ_CLIENT_ID:       ${APP_ID}
 
-ORGANIZATION LEVEL SECRETS
+ORGANIZATION LEVEL SECRETS (https://github.com/${GITHUB_OWNER}/settings/secrets/actions)
   AZ_TENANT_ID:       ${AZ_TENANT_ID}
   AZ_SUBSCRIPTION_ID: ${AZ_SUBSCRIPTION_ID}
 "

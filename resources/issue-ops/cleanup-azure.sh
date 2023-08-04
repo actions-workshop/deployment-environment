@@ -27,6 +27,8 @@ function removeActionWorkshopDeployments() {
 			echo "Aborting..."
 			exit 1
 		fi
+		
+		echo ""
 
 		## Loop over all Resource Groups and delete them
 		for RESOURCE_GROUP in $RESOURCE_GROUPS; do
@@ -39,6 +41,34 @@ function removeActionWorkshopDeployments() {
 }
 
 removeActionWorkshopDeployments
+
+## Get all App Registrations that start with `aw-`
+APP_REGISTRATIONS_JSON=$(az ad app list --query "[?starts_with(displayName, 'aw-')].{displayName:displayName,appId:appId}" -o json)
+LOOPABLE_APP_REGISTRATIONS=$(echo $APP_REGISTRATIONS_JSON | jq -c '.[]')
+
+## Iterate through all app registrations and print the name of them in a list that all those will be deleted:
+echo "The following App Registrations will be deleted:"
+for APP_REGISTRATION in $LOOPABLE_APP_REGISTRATIONS; do
+	APP_REGISTRATION_DISPLAY_NAME=$(echo $APP_REGISTRATION | jq -r '.displayName')
+	APP_REGISTRATION_APP_ID=$(echo $APP_REGISTRATION | jq -r '.appId')
+	echo " - ${APP_REGISTRATION_DISPLAY_NAME} (${APP_REGISTRATION_APP_ID})"
+done
+
+read -p "Do you want to delete these App Registrations? (y/n) " -n 1 -r
+
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+	echo "Aborting..."
+	exit 1
+fi
+
+echo ""
+for APP_REGISTRATION in $LOOPABLE_APP_REGISTRATIONS; do
+	APP_REGISTRATION_DISPLAY_NAME=$(echo $APP_REGISTRATION | jq -r '.displayName')
+	APP_REGISTRATION_APP_ID=$(echo $APP_REGISTRATION | jq -r '.appId')
+	echo "Deleting App Registration '${APP_REGISTRATION_DISPLAY_NAME}' with App ID '${APP_REGISTRATION_APP_ID}'..."
+	az ad app delete --id $APP_REGISTRATION_APP_ID
+done
+
 
 ## Ask the user if they want to delete the Service Principal and Custom Role as well
 read -p "Do you also want to delete the Service Principal and Custom Roles? (y/n) " -n 1 -r

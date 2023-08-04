@@ -14,7 +14,7 @@ The simplest way to go from here is to use the [./resources/simple/prepare-azure
 
 1. Login to Azure with
     ```shell
-    az login
+    az login --use-device-code
     ```
 2. Put the subscription Id into a variable:
     ```shell
@@ -26,6 +26,13 @@ The simplest way to go from here is to use the [./resources/simple/prepare-azure
     ```
 
 You will get an output with the following Ids:
+
+| Secret Name        | Value                                                    |
+| ------------------ | -------------------------------------------------------- |
+| AZ_SUBSCRIPTION_ID | The Azure Subscription ID used above                     |
+| AZ_TENANT_ID       | The Azure Tenant ID used above                           |
+| AZ_CLIENT_ID       | The Azure Client ID of the created service principal     |
+| AZ_CLIENT_SECRET   | The Azure Client Secret of the created servico principal |
 
 - `AZ_CLIENT_ID` - the client id of the service principal
 - `AZ_CLIENT_SECRET` - the client secret of the service principal
@@ -48,7 +55,7 @@ After the workshop, you can easily cleanup all created resources by executing th
 
 1. Login to Azure with
     ```shell
-    az login
+    az login --use-device-code
     ```
 2. Put the subscription Id into a variable:
     ```shell
@@ -82,11 +89,21 @@ With these variables and secrets, participants can follow the OIDC-Deployment-St
 
 There are 3 pieces required to make this work:
 
-1. Azure Admin Principal - this is so that you can actually create the deployment targets and further app registrations for the participants
-2. A GitHub Organization for the Actions Workshop with a copy of this repository template in it
-3. A GitHub PAT in the scope of this organization
+1. A GitHub Organization for the Actions Workshop
+2. Putting this repostiory in the above organization
+3. A prepared Azure Account
 
 ### 1. Azure Admin Principal
+
+#### Required Resources
+
+| What | Name | Additional Info |
+| ---- | ------ |
+| Azure App Registration | GitHub Actions Worshop Administrator |
+| Service Principal | 'GitHub Actions Workshop Administrator' |
+| Custom Role | GitHub Actions Workshop Administrator Role | []() |
+| Custom Role | Github Actions Worskhop Participant Role
+
 
 
 
