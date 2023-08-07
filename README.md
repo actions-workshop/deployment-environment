@@ -2,7 +2,10 @@
 
 This repository contains preparation material for the deployment stept of the [GitHub Actions Workshop](https://github.com/actions-workshop/actions-workshop).
 
-It's for trainers of this workshop to allow participants to deploy to any kind of infrastructure (like Azure) without having them create or bring their own accounts.
+It's for trainers of this workshop to allow participants to deploy to any kind of infrastructure (currently only Azure) without having them create or bring their own accounts.
+
+> **Note:**
+> The cost for those deployments should most likely be a few cents and thus neglectable - see [Azure Costs](#azure-costs) for more details.
 
 ## 1. Simple Azure Web-App with Secret Authentication
 
@@ -55,7 +58,12 @@ Execute the following steps:
 2. [Add all the IDs from above as organization action secrets](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-an-organization)
 3. [Invite all participants to the organization](https://docs.github.com/en/organizations/managing-membership-in-your-organization/inviting-users-to-join-your-organization) and advice them to put their [Actions Workshop Template Copy](https://github.com/actions-workshop/actions-workshop) into this organization
 
-### 1.3 Cleanup
+## 1.3 Conducting the Workshop
+
+Let participants follow the inst
+
+docs/005-deployment-azure-webapp.md
+## 1.4 Cleanup
 
 After the workshop, you can easily cleanup all created resources by executing the [./resources/simple/cleanup-azure.sh](./resources/simple/cleanup-azure.sh) script:
 
@@ -83,11 +91,11 @@ The main idea is that participants of the workshop:
 2. This triggers a workflow that will:
     1. create an participant specific **App Registration** with a **Service Principal** that allows the repository to deploy using **OIDC**
     2. create a **Resource Group** in Azure that the **App Registration** is allowed to deploy to by a **Custom Role**
-    3. puts the required OIDC Information (`AZ_CLIENT_ID`, `AZ_SUBSCRIPTION_ID` and `AZ_TENANT_ID`) and the `ResourceGroup` Name into the target repository as secrets and action variables
+    3. puts the required OIDC Information (`AZ_CLIENT_ID`, `AZ_SUBSCRIPTION_ID` and `AZ_TENANT_ID`) and the `ResourceGroup` Name (`AZ_RESOURCE_GROUP`) into the target repository as secrets and action variables
 
 With these variables and secrets, participants can follow the [Issue Ops Deployment Steps](tbd.) of the Actions-Workshop. For a detailed explanation on how this works, see [Issue Ops Details](./docs/issue-ops-details.md).
 
-### Getting started
+### 2.1 Getting started
 
 There are 3 pieces required to make this work:
 
@@ -95,15 +103,15 @@ There are 3 pieces required to make this work:
 2. [A prepared Azure Account](#2-prepare-the-azure-account)
 3. [A GitHub PAT for the Organization](#3-create-a-github-pat)
 
-### 1. Create a GitHub Organization for the Workshop
+#### 2.1.1 Create a GitHub Organization for the Workshop
 
 1. [Create a (free) GitHub Organization](https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/creating-a-new-organization-from-scratch)
 2. `Use this template` of this very repository to create a copy in the organization
     ![Screenshot of the `Use this template` button](./docs/images/use-this-template.png)
 
-### 2. Prepare the Azure Account
+#### 2.1.2 Prepare the Azure Account
 
-#### Overview: Required Azure Resources
+##### Overview: Required Azure Resources
 
 | Azure Resource | Name | Additional Info |
 | ---- | ------ | ------ |
@@ -114,7 +122,7 @@ There are 3 pieces required to make this work:
 | [Role Assignment][ad-docs-create-role-assignment] | GitHub Actions Workshop Administrator Role | Assigned to the GitHub Actions Workshop Administrator
 | [Custom Role][ad-docs-create-custom-role-json] | Github Actions Worskhop Participant Role | Using [these permissions](./resources/issue-ops/prepare-azure.sh#168), this is  role allows participanrt's Service Principals to deployment Azure Web-Apps via OIDC to the created Resource Group |
 
-#### How to create these resources
+##### How to create these resources
 
 If you want to use the Azure Portal, click on the links in the overview above for detailed instructions.
 
@@ -143,7 +151,7 @@ However, the easiest way to create all of the above is to exeucte the [./resourc
     | AZ_TENANT_ID       | The Azure Tenant ID used above                           | Organization |
     | AZ_CLIENT_ID       | The Azure Client ID of the created service principal     | Repository |
 
-### 3. Create a GitHub PAT
+#### 2.1.3 Create a GitHub PAT
 
 1. Create the following GitHub PAT:
 
@@ -163,11 +171,11 @@ After completion, you should have the following secrets in your copy of this dep
 
 ![Screenshot of the Repository Secrets of this repository](./docs/images/all-secrets.png)
 
-### Workshop-Time
+### 2.2 Conducting the Workshop
 
-Hand out this repositories URL to your participants. There is an explanation on how to use issue-ops to request for a deployment [in the 005-deployment-issue-ops.md documentation](tbd.).
+Hand out this repositorie's URL to your participants. Let them Follow the [005-deployment-issue-ops.md Deployment step](https://github.com/actions-workshop/actions-workshop/tree/main/docs/005-deployment-azure-issue-ops.md) for the workshop, it contains the explanation on how to use this repositorie's issues to create a deployment environment.
 
-### Post Workshop Cleanup
+### 2.3 Post Workshop Cleanup
 
 After the workshop, you can easily cleanup all created resources by executing the [./resources/issue-ops/cleanup-azure.sh](./resources/issue-ops/cleanup-azure.sh) script:
 
@@ -190,6 +198,16 @@ This will delete:
 
 > **Warning:**
 > As this script will remove all app registration / service principals that start with `aw-` (which stands for actions-workshop). You will get a list with confirmation before deletion, however, you should still make sure before tha you have no other app registrations / service principals that start with `aw-` in your subscription.
+
+## Appendix: Azure Costs
+
+You might be wondering: What will it cost to run this workshop in Azure the way?
+**The answer: Most likely only a few cents.**
+
+Participants will each create a single [Azure Web App Service](https://azure.microsoft.com/en-us/pricing/details/app-service/linux/) under a **Basic B1 Service Plan** which currently comes at €0.017/hour - so roughly 2 Cents / participant / hour.
+
+As the Deployment Step is the last part of the workshop, participants will only have this service running for a few minutes or maximum hours - depending on how fast you will execute the cleanup scripts.
+
 
 [ad-docs-create-service-principal]: https://learn.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal
 [ad-docs-create-client-secret]: https://learn.microsoft.com/en-us/azure/active-directory/develop/howto-create-service-principal-portal#option-3-create-a-new-application-secret
