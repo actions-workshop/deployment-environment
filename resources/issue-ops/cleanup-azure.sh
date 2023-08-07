@@ -71,7 +71,7 @@ done
 
 
 ## Ask the user if they want to delete the Service Principal and Custom Role as well
-read -p "Do you also want to delete the Service Principal and Custom Roles? (y/n) " -n 1 -r
+read -p "Do you also want to delete the Service Principal '${SERVICE_PRINCIPAL_NAME}' and the Custom Roles '${ADMIN_ROLE_NAME}' and '${PARTICIPANTS_ROLE_NAME}'? (y/n) " -n 1 -r
 echo ""
 
 ## Exit if the user did not confirm
