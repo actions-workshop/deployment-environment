@@ -1,10 +1,12 @@
 # Actions Workshop Deployment Environment
 
-This repository contains preparation material for the deployment stept of the [GitHub Actions Workshop](https://github.com/actions-workshop/actions-workshop).
+This repository contains preparation resources and script for the deployment step of the [GitHub Actions Workshop](https://github.com/actions-workshop/actions-workshop).
 
-It's for trainers of this workshop to allow participants to deploy to any kind of infrastructure (currently only Azure) without having them create or bring their own accounts.
+It's for trainers of this workshop to allow participants to deploy to any kind of infrastructure (currently only Azure) without having them create or bring their own accounts. 
 
-> **Note:**
+This repository contains all explanations and scripts to easily set up all required infrastructure and be ready to conduct the workshop.
+
+> [!NOTE]
 > The cost for those deployments should most likely be a few cents and thus neglectable - see [Azure Costs](#azure-costs) for more details.
 
 ## 1. Simple Azure Web-App with Secret Authentication
@@ -196,7 +198,7 @@ This will delete:
 
 **You will be presented with a list of deleted resources and prompted to confirm before any deletion happens.**
 
-> **Warning:**
+> [!WARNING]
 > As this script will remove all app registration / service principals that start with `aw-` (which stands for actions-workshop). You will get a list with confirmation before deletion, however, you should still make sure before tha you have no other app registrations / service principals that start with `aw-` in your subscription.
 
 ## Appendix: Azure Costs
