@@ -15,7 +15,7 @@ This is the simplest possible deployment environment that can be created for the
 
 ### 1.1 Prepare the Azure Account
 
-#### Overivew: Required Azure Resources
+#### Overview: Required Azure Resources
 
 | Azure Resource | Name | Additional Info |
 | ---- | ------ | ------ |
@@ -43,14 +43,14 @@ However, the easiest way to create all of the above is to use the [./resources/s
     ./resources/simple/prepare-azure.sh
     ```
 
-4. Make sure to store all the output values as Organization-Secrets as adviced in the log output:
+4. Make sure to store all the output values as Organization-Secrets as advised in the log output:
 
     | Secret Name        | Value                                                    |
     | ------------------ | -------------------------------------------------------- |
     | AZ_SUBSCRIPTION_ID | The Azure Subscription ID used above                     |
     | AZ_TENANT_ID       | The Azure Tenant ID used above                           |
-    | AZ_CLIENT_ID       | The Azure Client ID of the created service principal     |
-    | AZ_CLIENT_SECRET   | The Azure Client Secret of the created servico principal |
+    | AZ_CLIENT_ID       | The Azure Client ID of the created Service Principal     |
+    | AZ_CLIENT_SECRET   | The Azure Client Secret of the created Service Principal |
 
 ### 1.2 Create a GitHub Organization
 
@@ -116,18 +116,18 @@ There are 3 pieces required to make this work:
 
 | Azure Resource | Name | Additional Info |
 | ---- | ------ | ------ |
-| [AD App Registration & Service Principal][ad-docs-create-service-principal] | GitHub Actions Worshop Administrator | This is the 'main' Service Principal used by this repository to create new participant specific Service Principals that allow them to deploy (App Registration and Service Principal are the same for our scenario here) |
+| [AD App Registration & Service Principal][ad-docs-create-service-principal] | GitHub Actions Workshop Administrator | This is the 'main' Service Principal used by this repository to create new participant specific Service Principals that allow them to deploy (App Registration and Service Principal are the same for our scenario here) |
 | [Federated Credentials][ad-docs-federeated-github-credentials] | GitHub Actions Workshop Administrator | Using [this configuration](./resources/issue-ops/prepare-azure.sh#73), this is the OIDC configuration that is used by the participants create the participants Service Principals |
 | [AD Admin Role Assignment][ad-docs-ad-admin-role-assignment] | Cloud Application Administrator | Built-In Azure AD Role, assigned to the GitHub Actions Workshop Administrator
 | [Custom Role][ad-docs-create-custom-role-json] | GitHub Actions Workshop Administrator Role | Using [these permissions](./resources/issue-ops/prepare-azure.sh#126), this role allows the Administrator Service Principal has to create and cleanup resources |
 | [Role Assignment][ad-docs-create-role-assignment] | GitHub Actions Workshop Administrator Role | Assigned to the GitHub Actions Workshop Administrator
-| [Custom Role][ad-docs-create-custom-role-json] | Github Actions Worskhop Participant Role | Using [these permissions](./resources/issue-ops/prepare-azure.sh#168), this is  role allows participanrt's Service Principals to deployment Azure Web-Apps via OIDC to the created Resource Group |
+| [Custom Role][ad-docs-create-custom-role-json] | Github Actions Workshop Participant Role | Using [these permissions](./resources/issue-ops/prepare-azure.sh#168), this is  role allows participanrt's Service Principals to deployment Azure Web-Apps via OIDC to the created Resource Group |
 
 ##### How to create these resources
 
 If you want to use the Azure Portal, click on the links in the overview above for detailed instructions.
 
-However, the easiest way to create all of the above is to exeucte the [./resources/issue-ops/prepare-azure.sh](./resources/issue-ops/prepare-azure.sh) script. To run it, spin up a Codespace and execute the following:
+However, the easiest way to create all of the above is to execute the [./resources/issue-ops/prepare-azure.sh](./resources/issue-ops/prepare-azure.sh) script. To run it, spin up a Codespace and execute the following:
 
 1. Login to Azure with
     ```shell
@@ -144,7 +144,7 @@ However, the easiest way to create all of the above is to exeucte the [./resourc
     ./resources/issue-ops/prepare-azure.sh
     ```
 
-4. Make sure to store all the output values as Organization- and Repository Secrets as adviced in the log output:
+4. Make sure to store all the output values as Organization- and Repository Secrets as advised in the log output:
 
     | Secret Name        | Value                                                    | Scope |
     | ------------------ | -------------------------------------------------------- | ----- |
@@ -174,7 +174,7 @@ After completion, you should have the following secrets in your copy of this dep
 
 ### 2.2 Conduct the Workshop
 
-Hand out this repositorie's URL to your participants. Let them follow the [005-deployment-issue-ops.md Deployment step](https://github.com/actions-workshop/actions-workshop/tree/main/docs/005-deployment-azure-issue-ops.md) for the workshop, it contains the explanation on how to use this repositorie's issues to create a deployment environment.
+Hand out this repository's URL to your participants. Let them follow the [005-deployment-issue-ops.md Deployment step](https://github.com/actions-workshop/actions-workshop/tree/main/docs/005-deployment-azure-issue-ops.md) for the workshop, it contains the explanation on how to use this repository's issues to create a deployment environment.
 
 ### 2.3 Post Workshop Cleanup
 
