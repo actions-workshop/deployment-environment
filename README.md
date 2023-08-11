@@ -60,11 +60,10 @@ Execute the following steps:
 2. [Add all the IDs from above as organization action secrets](https://docs.github.com/en/actions/reference/encrypted-secrets#creating-encrypted-secrets-for-an-organization)
 3. [Invite all participants to the organization](https://docs.github.com/en/organizations/managing-membership-in-your-organization/inviting-users-to-join-your-organization) and advice them to put their [Actions Workshop Template Copy](https://github.com/actions-workshop/actions-workshop) into this organization
 
-## 1.3 Conducting the Workshop
+## 1.3 Conduct the Workshop
 
-Let participants follow the inst
+Let the participants follow the [005-deployment-azure-webapp.md Deployment step](https://github.com/actions-workshop/actions-workshop/tree/main/docs/005-deployment-azure-webapp.md) for the workshop. It contains all explanations in how to use the created Service Principal to deploy to Azure.
 
-docs/005-deployment-azure-webapp.md
 ## 1.4 Cleanup
 
 After the workshop, you can easily cleanup all created resources by executing the [./resources/simple/cleanup-azure.sh](./resources/simple/cleanup-azure.sh) script:
@@ -173,9 +172,9 @@ After completion, you should have the following secrets in your copy of this dep
 
 ![Screenshot of the Repository Secrets of this repository](./docs/images/all-secrets.png)
 
-### 2.2 Conducting the Workshop
+### 2.2 Conduct the Workshop
 
-Hand out this repositorie's URL to your participants. Let them Follow the [005-deployment-issue-ops.md Deployment step](https://github.com/actions-workshop/actions-workshop/tree/main/docs/005-deployment-azure-issue-ops.md) for the workshop, it contains the explanation on how to use this repositorie's issues to create a deployment environment.
+Hand out this repositorie's URL to your participants. Let them follow the [005-deployment-issue-ops.md Deployment step](https://github.com/actions-workshop/actions-workshop/tree/main/docs/005-deployment-azure-issue-ops.md) for the workshop, it contains the explanation on how to use this repositorie's issues to create a deployment environment.
 
 ### 2.3 Post Workshop Cleanup
 
