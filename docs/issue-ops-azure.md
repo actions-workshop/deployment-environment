@@ -18,15 +18,15 @@ For a detailed explanation on how this works, see [Issue Ops Details](#how-it-wo
 
 There are 3 pieces required to make this work:
 
-1. [A GitHub Organization for the Actions Workshop with a copy of this Repository in it](#1-create-a-github-organization-for-the-workshop)
-2. [A prepared Azure Account](#2-prepare-the-azure-account)
-3. [A GitHub PAT for the Organization](#3-create-a-github-pat)
+1. [A GitHub Organization for the Actions Workshop with a copy of this Repository in it](#11-create-a-github-organization-for-the-workshop)
+2. [A prepared Azure Account](#12-prepare-the-azure-account)
+3. [A GitHub PAT for the Organization](#13-create-a-github-pat)
 
 ### 1.1 Create a GitHub Organization for the Workshop
 
 1. [Create a (free) GitHub Organization](https://docs.github.com/en/github/setting-up-and-managing-organizations-and-teams/creating-a-new-organization-from-scratch)
 2. `Use this template` of this very repository to create a copy in the organization
-    ![Screenshot of the `Use this template` button](./docs/images/use-this-template.png)
+    ![Screenshot of the `Use this template` button](./images/use-this-template.png)
 
 ### 1.2 Prepare the Azure Account
 
