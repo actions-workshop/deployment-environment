@@ -6,11 +6,11 @@ This repository contains all explanations and scripts to easily set up all requi
 
 There are currently two ways to create a deployment environment:
 
-1. [Simple Azure Web-App with Secret Authentication](#1-simple-azure-web-app-with-secret-authentication):
+1. [Simple Azure Web-App with Secret Authentication](./docs/simple-azure.md):
     This is the simplest possible deployment environment that can be created for the workshop. It consists of an Azure Service Principal using Secret authentication that has the required permissions to deploy a Web-App to a given Resource Group. The necessary secrets are placed as organization secrets within the organization the actions-workshop is conducted in.
 
     Go to [Simple Azure Web-App with Secret Authentication](./docs/simple-azure.md) for a step-by-step guide.
-2. [Issue-Ops Azure Web-App with OIDC Authentication](#2-issue-ops-azure-web-app-with-oidc-authentication)
+2. [Issue-Ops Azure Web-App with OIDC Authentication](./docs/issue-ops-azure.md)
     This is a more sophisticated way for deployment, in that it uses GitHub Issues to trigger the creation of a full deployment environment on Azure (hence the term 'Issue Ops'). Additionally, rather than relying on secrets, it will use OIDC Authentication to conduct the deployment in a secure manner.
 
     Go to [Issue-Ops Azure Web-App with OIDC Authentication](./docs/issue-ops-azure.md) for a step-by-step guide.
